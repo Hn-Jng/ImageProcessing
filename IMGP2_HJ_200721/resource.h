@@ -129,13 +129,22 @@
 #define ID_HISTO_EQUAL                  32806
 #define ID_32807                        32807
 #define ID_HISTO_SPEC                   32808
+#define ID_32809                        32809
+#define ID_32810                        32810
+#define ID_EMBOSSING                    32811
+#define ID_32812                        32812
+#define ID_BLURR                        32813
+#define ID_32814                        32814
+#define ID_GAUSSIAN_FILTER              32815
+#define ID_32816                        32816
+#define ID_SHARPENING                   32817
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        322
-#define _APS_NEXT_COMMAND_VALUE         32809
+#define _APS_NEXT_COMMAND_VALUE         32818
 #define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

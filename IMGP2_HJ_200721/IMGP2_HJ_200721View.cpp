@@ -49,6 +49,11 @@ BEGIN_MESSAGE_MAP(CIMGP2HJ200721View, CView)
 	ON_COMMAND(ID_HISTOGRAM, &CIMGP2HJ200721View::OnHistogram)
 	ON_COMMAND(ID_HISTO_EQUAL, &CIMGP2HJ200721View::OnHistoEqual)
 	ON_COMMAND(ID_HISTO_SPEC, &CIMGP2HJ200721View::OnHistoSpec)
+	ON_COMMAND(ID_EMBOSSING, &CIMGP2HJ200721View::OnEmbossing)
+
+	ON_COMMAND(ID_BLURR, &CIMGP2HJ200721View::OnBlurr)
+	ON_COMMAND(ID_GAUSSIAN_FILTER, &CIMGP2HJ200721View::OnGaussianFilter)
+	ON_COMMAND(ID_SHARPENING, &CIMGP2HJ200721View::OnSharpening)
 END_MESSAGE_MAP()
 
 // CIMGP2HJ200721View 생성/소멸
@@ -365,5 +370,41 @@ void CIMGP2HJ200721View::OnHistoSpec()
 	CIMGP2HJ200721Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	pDoc->OnHistoSpec();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnEmbossing()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnEmbossing();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnBlurr()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnBlurr();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnGaussianFilter()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnGaussianFilter();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnSharpening()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnSharpening();
 	Invalidate(TRUE);
 }

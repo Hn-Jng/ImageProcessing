@@ -46,6 +46,10 @@ BEGIN_MESSAGE_MAP(CIMGP2HJ200721Doc, CDocument)
 	ON_COMMAND(ID_HISTOGRAM, &CIMGP2HJ200721Doc::OnHistogram)
 	ON_COMMAND(ID_HISTO_EQUAL, &CIMGP2HJ200721Doc::OnHistoEqual)
 	ON_COMMAND(ID_HISTO_SPEC, &CIMGP2HJ200721Doc::OnHistoSpec)
+	ON_COMMAND(ID_EMBOSSING, &CIMGP2HJ200721Doc::OnEmbossing)
+	ON_COMMAND(ID_BLURR, &CIMGP2HJ200721Doc::OnBlurr)
+	ON_COMMAND(ID_GAUSSIAN_FILTER, &CIMGP2HJ200721Doc::OnGaussianFilter)
+	ON_COMMAND(ID_SHARPENING, &CIMGP2HJ200721Doc::OnSharpening)
 END_MESSAGE_MAP()
 
 
@@ -846,5 +850,210 @@ void CIMGP2HJ200721Doc::OnHistoSpec()
 			m_OutputImage[i] = m_TABLE[DADD];
 		}
 
+	}
+}
+
+
+void CIMGP2HJ200721Doc::OnEmbossing()
+{
+	{
+		int i, j;
+
+		double EmboMask[3][3] = { {-1., 0., 0.}, {0., 0., 0.}, {0., 0., 1.} };
+		// 마스크 선택
+		 //double EmboMask[3][3] = {{0., 0., 0.}, {0., 1., 0.}, {0., 0., 0.}};
+		 //double EmboMask[3][3] = {{1., 1., 1.}, {1., -8.,1.}, {1., 1., 1.}};
+		m_Re_height = m_height;
+		m_Re_width = m_width;
+		m_Re_size = m_Re_height * m_Re_width;
+		m_OutputImage = new unsigned char[m_Re_size];
+		m_tempImage = OnMaskProcess(m_InputImage, EmboMask);
+
+		// OnMaskProcess 함수를 호출하여 회선 처리를 한다.
+		for (i = 0; i < m_Re_height; i++) {
+			for (j = 0; j < m_Re_width; j++) {
+				if (m_tempImage[i][j] > 255.)
+					m_tempImage[i][j] = 255.;
+				if (m_tempImage[i][j] < 0.)
+					m_tempImage[i][j] = 0.;
+			}
+		} // 회선 처리 결과가 0~255 사이 값이 되도록 한다.
+
+		 m_tempImage = OnScale(m_tempImage, m_Re_height, m_Re_width);
+		// 정규화 함수를 사용할 때
+
+		//회선 처리 결과나 정규화 처리 결과는 2차원 배열 값이 되므로
+		// 2차원 배열을 1차원 배열로 바꾸어 출력하도록 한다.
+
+		for (i = 0; i < m_Re_height; i++) {
+			for (j = 0; j < m_Re_width; j++) {
+				m_OutputImage[i * m_Re_width + j]
+					= (unsigned char)m_tempImage[i][j];
+			}
+		}
+	}
+}
+
+
+double** CIMGP2HJ200721Doc::OnMaskProcess(unsigned char*Target, double Mask[3][3])
+{
+	{ // 회선 처리가 일어나는 함수
+		int i, j, n, m;
+		double** tempInputImage, ** tempOutputImage, S = 0.0;
+		tempInputImage = Image2DMem(m_height + 2, m_width + 2);
+		// 입력 값을 위한 메모리 할당
+		tempOutputImage = Image2DMem(m_height, m_width);
+		// 출력 값을 위한 메모리 할당
+		// 1차원 입력 영상의 값을 2차원 배열에 할당한다.
+		for (i = 0; i < m_height; i++) {
+			for (j = 0; j < m_width; j++) {
+				tempInputImage[i + 1][j + 1]
+					= (double)Target[i * m_width + j];
+			}
+		}
+		// 회선연산
+		for (i = 0; i < m_height; i++) {
+			for (j = 0; j < m_width; j++) {
+				for (n = 0; n < 3; n++) {
+					for (m = 0; m < 3; m++) {
+						S += Mask[n][m] * tempInputImage[i + n][j + m];
+					}
+				} // 회선 마스크의 크기 만큼 이동하면서 값을 누적
+				tempOutputImage[i][j] = S; // 누적된 값을 출력 메모리에 저장
+				S = 0.0; // 다음 블록으로 이동하면 누적 값을 초기화
+			}
+		}
+		return tempOutputImage; // 결과 값 반환
+	}
+
+}
+
+
+double** CIMGP2HJ200721Doc::OnScale(double **Target, int height, int width)
+{ // 정규화를 위한 함수
+	int i, j;
+	double min, max;
+	min = max = Target[0][0];
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+			if (Target[i][j] <= min)
+				min = Target[i][j];
+		}
+	}
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+			if (Target[i][j] >= max)
+				max = Target[i][j];
+		}
+	}
+	max = max - min;
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+			Target[i][j] = (Target[i][j] - min) * (255. / max);
+		}
+	}
+	return Target;
+}
+
+
+double** CIMGP2HJ200721Doc::Image2DMem(int height, int width)
+{ // 2차원 메모리 할당을 위한 함수
+	double** temp;
+	int i, j;
+	temp = new double* [height];
+	for (i = 0; i < height; i++) {
+		temp[i] = new double[width];
+	}
+	for (i = 0; i < height; i++) {
+		for (j = 0; j < width; j++) {
+			temp[i][j] = 0.0;
+		}
+	} // 할당된 2차원 메모리를 초기화
+	return temp;
+}
+
+
+
+void CIMGP2HJ200721Doc::OnBlurr()
+{
+	int i, j;
+	double BlurrMask[3][3] = { {1. / 9., 1. / 9., 1. / 9.},{1. / 9., 1. / 9., 1. / 9.}, {1. / 9., 1. / 9., 1. / 9.} };
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_Re_height * m_Re_width;
+	m_OutputImage = new unsigned char[m_Re_size];
+	m_tempImage = OnMaskProcess(m_InputImage, BlurrMask);
+	// 블러링 처리
+	// m_tempImage = OnScale(m_tempImage, m_Re_height, m_Re_width);
+	// 정규화
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			if (m_tempImage[i][j] > 255.)
+				m_tempImage[i][j] = 255.;
+			if (m_tempImage[i][j] < 0.)
+				m_tempImage[i][j] = 0.;
+		}
+	}
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			m_OutputImage[i * m_Re_width + j]
+				= (unsigned char)m_tempImage[i][j];
+		}
+	}
+}
+
+
+void CIMGP2HJ200721Doc::OnGaussianFilter()
+{
+	int i, j;
+	double GaussianMask[3][3] = { {1. / 16., 1. / 8., 1. / 16.},
+	{1. / 8., 1. / 4., 1. / 8.}, {1. / 16., 1. / 8., 1. / 16.} };
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_Re_height * m_Re_width;
+	m_OutputImage = new unsigned char[m_Re_size];
+	m_tempImage = OnMaskProcess(m_InputImage, GaussianMask);
+	// m_tempImage = OnScale(m_tempImage, m_Re_height, m_Re_width);
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			if (m_tempImage[i][j] > 255.)
+				m_tempImage[i][j] = 255.;
+			if (m_tempImage[i][j] < 0.)
+				m_tempImage[i][j] = 0.;
+		}
+	}
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			m_OutputImage[i * m_Re_width + j]
+				= (unsigned char)m_tempImage[i][j];
+		}
+	}
+}
+
+
+void CIMGP2HJ200721Doc::OnSharpening()
+{
+	int i, j;
+	//double SharpeningMask[3][3] = {{-1., -1., -1.}, {-1., 9., -1.}, { -1., -1., -1. }
+	double SharpeningMask[3][3] = { {0., -1., 0.}, {-1., 5.,-1.}, {0., -1., 0.} };
+	m_Re_height = m_height;
+	m_Re_width = m_width;
+	m_Re_size = m_Re_height * m_Re_width;
+	m_OutputImage = new unsigned char[m_Re_size];
+	m_tempImage = OnMaskProcess(m_InputImage, SharpeningMask);
+	// m_tempImage = OnScale(m_tempImage, m_Re_height, m_Re_width);
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			if (m_tempImage[i][j] > 255.)
+				m_tempImage[i][j] = 255.;
+			if (m_tempImage[i][j] < 0.)
+				m_tempImage[i][j] = 0.;
+		}
+	}
+	for (i = 0; i < m_Re_height; i++) {
+		for (j = 0; j < m_Re_width; j++) {
+			m_OutputImage[i * m_Re_width + j]
+				= (unsigned char)m_tempImage[i][j];
+		}
 	}
 }

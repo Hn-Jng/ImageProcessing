@@ -64,6 +64,10 @@ public:
 	afx_msg void OnHistogram();
 	afx_msg void OnHistoEqual();
 	afx_msg void OnHistoSpec();
+	afx_msg void OnEmbossing();
+	afx_msg void OnBlurr();
+	afx_msg void OnGaussianFilter();
+	afx_msg void OnSharpening();
 };
 
 #ifndef _DEBUG  // IMGP2_HJ_200721View.cpp의 디버그 버전
