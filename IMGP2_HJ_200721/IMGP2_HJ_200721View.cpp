@@ -54,6 +54,15 @@ BEGIN_MESSAGE_MAP(CIMGP2HJ200721View, CView)
 	ON_COMMAND(ID_BLURR, &CIMGP2HJ200721View::OnBlurr)
 	ON_COMMAND(ID_GAUSSIAN_FILTER, &CIMGP2HJ200721View::OnGaussianFilter)
 	ON_COMMAND(ID_SHARPENING, &CIMGP2HJ200721View::OnSharpening)
+	ON_COMMAND(ID_HPF_SHARP, &CIMGP2HJ200721View::OnHpfSharp)
+	ON_COMMAND(ID_LPF_SHARP, &CIMGP2HJ200721View::OnLpfSharp)
+	ON_COMMAND(ID_DIFF_OPERATOR_HOR, &CIMGP2HJ200721View::OnDiffOperatorHor)
+	ON_COMMAND(ID_HOMOGEN_OPERATOR, &CIMGP2HJ200721View::OnHomogenOperator)
+	ON_COMMAND(ID_LAPLACIAN, &CIMGP2HJ200721View::OnLaplacian)
+	ON_COMMAND(ID_NEAREST, &CIMGP2HJ200721View::OnNearest)
+	ON_COMMAND(ID_BILINEAR, &CIMGP2HJ200721View::OnBilinear)
+	ON_COMMAND(ID_MEDIAN_SUB, &CIMGP2HJ200721View::OnMedianSub)
+	ON_COMMAND(ID_MEAN_SUB, &CIMGP2HJ200721View::OnMeanSub)
 END_MESSAGE_MAP()
 
 // CIMGP2HJ200721View 생성/소멸
@@ -406,5 +415,87 @@ void CIMGP2HJ200721View::OnSharpening()
 	CIMGP2HJ200721Doc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
 	pDoc->OnSharpening();
+	Invalidate(TRUE);
+}
+
+
+
+void CIMGP2HJ200721View::OnHpfSharp()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHpfSharp();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnLpfSharp()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnLpfSharp();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnDiffOperatorHor()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnDiffOperatorHor();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnHomogenOperator()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnHomogenOperator();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnLaplacian()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnLaplacian();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnNearest()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnNearest();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnBilinear()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnBilinear();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnMedianSub()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnMedianSub();
+	Invalidate(TRUE);
+}
+
+
+void CIMGP2HJ200721View::OnMeanSub()
+{
+	CIMGP2HJ200721Doc* pDoc = GetDocument();
+	ASSERT_VALID(pDoc);
+	pDoc->OnMeanSub();
 	Invalidate(TRUE);
 }

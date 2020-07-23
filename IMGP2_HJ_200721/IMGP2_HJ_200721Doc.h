@@ -89,4 +89,16 @@ public:
 	afx_msg void OnBlurr();
 	afx_msg void OnGaussianFilter();
 	afx_msg void OnSharpening();
+	afx_msg void OnHpfSharp();
+	afx_msg void OnLpfSharp();
+	afx_msg void OnDiffOperatorHor();
+	afx_msg void OnHomogenOperator();
+	double DoubleABS(double X);
+	afx_msg void OnLaplacian();
+	afx_msg void OnNearest();
+	afx_msg void OnBilinear();
+	afx_msg void OnMedianSub();
+	void OnBubleSort(double* A, int MAX);
+	void OnSwap(double* a, double* b);
+	afx_msg void OnMeanSub();
 };

@@ -227,6 +227,7 @@
     <ClCompile Include="ViewTree.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="IMGP2_HJ_200721.reg" />
     <None Include="res\IMGP2HJ200721.rc2" />
   </ItemGroup>

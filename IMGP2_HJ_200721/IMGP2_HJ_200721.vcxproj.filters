@@ -128,6 +128,7 @@
     <None Include="res\IMGP2HJ200721.rc2">
       <Filter>리소스 파일</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IMGP2HJ200721.rc">

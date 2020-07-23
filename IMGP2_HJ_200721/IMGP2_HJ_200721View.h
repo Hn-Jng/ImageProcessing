@@ -68,6 +68,15 @@ public:
 	afx_msg void OnBlurr();
 	afx_msg void OnGaussianFilter();
 	afx_msg void OnSharpening();
+	afx_msg void OnHpfSharp();
+	afx_msg void OnLpfSharp();
+	afx_msg void OnDiffOperatorHor();
+	afx_msg void OnHomogenOperator();
+	afx_msg void OnLaplacian();
+	afx_msg void OnNearest();
+	afx_msg void OnBilinear();
+	afx_msg void OnMedianSub();
+	afx_msg void OnMeanSub();
 };
 
 #ifndef _DEBUG  // IMGP2_HJ_200721View.cpp의 디버그 버전

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++에서 생성한 포함 파일입니다.
-// IMGP2HJ200721.rc에서 사용되고 있습니다.
+// Microsoft Visual C++ generated include file.
+// Used by IMGP2HJ200721.rc
 //
 #define IDD_ABOUTBOX                    100
 #define IDP_OLE_INIT_FAILED             100
@@ -138,13 +138,37 @@
 #define ID_GAUSSIAN_FILTER              32815
 #define ID_32816                        32816
 #define ID_SHARPENING                   32817
+#define ID_32818                        32818
+#define ID_                             32819
+#define ID_HPF_SHARP                    32820
+#define ID_32821                        32821
+#define ID_LPF_SHARP                    32822
+#define ID_32823                        32823
+#define ID_32824                        32824
+#define ID_DIFF_OPERATOR_HOR            32825
+#define ID_32826                        32826
+#define ID_HOMOGEN_OPERATOR             32827
+#define ID_32828                        32828
+#define ID_LAPLACIAN                    32829
+#define ID_32830                        32830
+#define ID_32831                        32831
+#define ID_32832                        32832
+#define ID_32833                        32833
+#define ID_32834                        32834
+#define ID_32835                        32835
+#define ID_32836                        32836
+#define ID_BILINEAR                     32837
+#define ID_32838                        32838
+#define ID_32839                        32839
+#define ID_MEAN_SUB                     32840
+#define ID_MEDIAN_SUB                   32841
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        322
-#define _APS_NEXT_COMMAND_VALUE         32818
+#define _APS_NEXT_COMMAND_VALUE         32842
 #define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           310
 #endif
